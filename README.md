@@ -1,2 +1,3 @@
 bukkit-groovytrigger
 ====================
+test
