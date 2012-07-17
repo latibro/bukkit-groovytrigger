@@ -4,9 +4,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.latibro.bukkit.plugin.groovytrigger.listeners.PlayerInteractListener;
+
 /*
  * Bukkit Plugin
  * http://wiki.bukkit.org/Plugin_Tutorial#Starting_a_Plugin_Project
+ * http://jd.bukkit.org/apidocs/
  * 
  * Groovy
  * http://groovy.codehaus.org/
@@ -20,6 +23,8 @@ public class GroovyTriggerPlugin extends JavaPlugin {
 
 	public void onEnable(){
 		getLogger().info("Your plugin has been enabled!");
+
+		getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
 	}
  
 	public void onDisable(){

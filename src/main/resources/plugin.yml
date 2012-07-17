@@ -1,8 +1,8 @@
-name: BlockCommand
+name: GroovyTrigger
 main: com.latibro.bukkit.plugin.groovytrigger.GroovyTriggerPlugin
 version: 0.0.1-SNAPSHOT
 author: Latibro
-website: www.latibro.com
+website: http://latibro.com
 description: Bukkit Plugin that allows your to bind Groovy scripts to Bukkit events.
 commands:
   groovytrigger:
