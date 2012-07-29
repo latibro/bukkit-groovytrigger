@@ -1,10 +1,12 @@
 package com.latibro.bukkit.plugin.groovytrigger;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.latibro.bukkit.plugin.groovytrigger.listeners.PlayerInteractListener;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /*
  * Bukkit Plugin
@@ -15,28 +17,79 @@ import com.latibro.bukkit.plugin.groovytrigger.listeners.PlayerInteractListener;
  * http://groovy.codehaus.org/
  * http://groovy.codehaus.org/Embedding+Groovy
  * 
- * Simular project (Closed source)
+ * Simular project (Home made scripting language) (Closed source)
  * http://dev.bukkit.org/server-mods/variabletriggers
  */
 
 public class GroovyTriggerPlugin extends JavaPlugin {
+	
+	private final List<Script> scripts = new ArrayList<Script>();
 
-	public void onEnable(){
+	public void onEnable() {
+		getLogger().info("Enabling your plugin...");
+
+		getConfig().options().copyDefaults(true);
+		saveConfig();
+
+		// Look for defaults in the jar
+		InputStream defaultConfigStream = this.getResource("default-config.yml");
+		if (defaultConfigStream != null) {
+			YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
+			getLogger().info("default-config: " + defaultConfig.saveToString());
+			getConfig().setDefaults(defaultConfig);
+		}
+		
+		getLogger().info("config: " + getConfig().saveToString());
+
+		ConfigurationSection scriptsConfig = getConfig().getConfigurationSection("scripts");
+
+		for (String scriptName : scriptsConfig.getKeys(false)) {
+			getLogger().info("Script: " + scriptName);
+
+			ConfigurationSection scriptConfig = scriptsConfig.getConfigurationSection(scriptName);
+
+			getLogger().info("Script settings: " + scriptConfig);
+
+			Script script = new Script(this, scriptConfig);
+
+			scripts.add(script);
+		}
+
 		getLogger().info("Your plugin has been enabled!");
-
-		getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
 	}
- 
-	public void onDisable(){
+
+	public void onDisable() {
 		getLogger().info("Your plugin has been disabled.");
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if(cmd.getName().equalsIgnoreCase("basic")){ // If the player typed /basic then do the following...
-			// doSomething
-			return true;
-		} //If this has happened the function will break and return true. if this hasn't happened the a value of false will be returned.
-		return false; 
+
+	public Class resolveTriggerClass(String triggerName) {
+		if (!getConfig().contains("triggers." + triggerName)) {
+			throw new RuntimeException("Unknown trigger: " + triggerName);
+		}
+
+		String className;
+		if (getConfig().contains("triggers." + triggerName + ".trigger")) {
+			className = getConfig().getString("triggers." + triggerName + ".trigger");
+		} else {
+			className = getConfig().getString("triggers.default.trigger");
+		}
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Unable to load trigger class: " + triggerName, e);
+		}
 	}
-	
+
+	public Class resolveEventClass(String triggerName) {
+		if (!getConfig().contains("triggers." + triggerName)) {
+			throw new RuntimeException("Unknown trigger: " + triggerName);
+		}
+		String className = getConfig().getString("triggers." + triggerName + ".event");
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Unable to load trigger class: " + triggerName, e);
+		}
+	}
+
 }

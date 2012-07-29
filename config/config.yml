@@ -1,0 +1,15 @@
+
+scripts:
+    shop:
+        triggers:
+            PlayerInteract:
+                command: "playerInteract();"
+            ServerCommand:
+                command: "serverCommand();"
+            RemoteServerCommand:
+                command: "remoteServerCommand();"
+            PlayerCommandPreprocess:
+                command: "playerCommandPreprocess();"
+            PlayerChat:
+                command: "playerChat();"
+            

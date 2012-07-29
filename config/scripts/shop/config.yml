@@ -1,0 +1,41 @@
+
+signs:
+    world:
+        x,y,z:
+            action: BlockBelow
+            amount: 64
+            item-hint: DIRT
+            sign-text:
+                - "Jord"
+                - "64 stk"
+                - "Gratis"
+            max-inventory: 320
+            cool-down: 5
+        x,y,z:
+            action: DispenserBelow
+            amount: 1
+            item-hint: IRON_PICKAXE
+            sign-text:
+                - "Hakke (Jern)"
+                - "1 stk"
+                - "Gratis"
+            max-inventory: 320
+            cool-down: 5
+        x,y,z:
+            action: DropsFromBlockBelow
+            amount: 10
+            item-hint: REDSTONE_ORE
+            sign-text:
+                - "Redstone"
+                - "10 stk"
+                - "Gratis"
+            max-inventory: 100
+            cool-down: 5
+        x,y,z:
+            action: Fly
+            sign-text:
+                - "Flyve"
+                - "10 minutter"
+                - "1 diamant"
+            cool-down: 600
+                

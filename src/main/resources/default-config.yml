@@ -1,0 +1,18 @@
+
+scripts: {}
+
+triggers:
+    default:
+        trigger: com.latibro.bukkit.plugin.groovytrigger.trigger.CommonTrigger
+    PlayerInteract:
+        event: org.bukkit.event.player.PlayerInteractEvent
+        trigger: com.latibro.bukkit.plugin.groovytrigger.trigger.player.PlayerInteractTrigger
+    ServerCommand:
+        event: org.bukkit.event.server.ServerCommandEvent
+    RemoteServerCommand:
+        event: org.bukkit.event.server.RemoteServerCommandEvent
+    PlayerCommandPreprocess:
+        event: org.bukkit.event.player.PlayerCommandPreprocessEvent
+    PlayerChat:
+        event: org.bukkit.event.player.PlayerChatEvent
+        

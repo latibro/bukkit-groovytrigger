@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<project basedir=".">
+
+	<target name="demo">
+	    <mkdir dir="demo" />
+		<echo>Test</echo>
+	</target>
+
+</project>
